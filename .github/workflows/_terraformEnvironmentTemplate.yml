@@ -1,4 +1,4 @@
-name: Terraform Plan Template
+name: Terraform Apply Template
 
 on:
   workflow_call:
@@ -39,7 +39,53 @@ permissions:
   pull-requests: write
 
 jobs:
-  deployment:
+  lint:
+    name: Terraform Lint
+    runs-on: ubuntu-latest
+    continue-on-error: false
+
+    steps:
+      # Setup Terraform
+      - name: Setup Terraform
+        id: terraform_setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+          terraform_wrapper: true
+
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+
+      # Terraform Format
+      - name: Terraform Format
+        id: terraform_format
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          terraform fmt -check -recursive
+
+      # Add Pull Request Comment
+      - name: Add Pull Request Comment
+        uses: actions/github-script@v6
+        id: pr_comment
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Lint Results
+            * Terraform Version 📎\`${{ inputs.terraform_version }}\`
+            * Working Directory 📂\`${{ inputs.working_directory }}\`
+            * Terraform Format and Style 🖌\`${{ steps.terraform_format.outcome }}\``;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+  plan:
     name: Terraform Plan
     runs-on: self-hosted
     continue-on-error: false
@@ -129,3 +175,52 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+  apply:
+    name: Terraform Apply
+    runs-on: self-hosted
+    continue-on-error: false
+    environment: ${{ inputs.environment }}
+
+    env:
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_USE_OIDC: false
+
+    steps:
+      # Setup Node
+      - name: Setup Node
+        id: node_setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+
+      # Setup Terraform
+      - name: Setup Terraform
+        id: terraform_setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+          terraform_wrapper: true
+
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+
+      # Terraform Init
+      - name: Terraform Init
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          terraform init
+
+      # Terraform Apply
+      - name: Terraform Apply
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          terraform apply -var-file="vars.${ENVIRONMENT}.tfvars" -var="my_secret=${MY_SAMPLE_SECRET}" -auto-approve -input=false
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          MY_SAMPLE_SECRET: ${{ secrets.MY_SAMPLE_SECRET }}
