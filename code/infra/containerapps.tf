@@ -139,7 +139,7 @@ resource "azapi_resource" "container_apps_job" {
                 value = "false"
               },
               {
-                name = "EPHEMERAL"
+                name  = "EPHEMERAL"
                 value = "1"
               },
               # {
