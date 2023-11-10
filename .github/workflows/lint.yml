@@ -10,7 +10,7 @@ on:
 jobs:
   lint:
     name: Lint and Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       # Setup Python 3.10
