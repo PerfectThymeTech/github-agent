@@ -1,2 +1,3 @@
-# github-agent
-Repository to manage GitHub self-hosted agents.
+# GitHub Self-Hosted Agents on Azure
+
+Repository to create GitHub self-hosted agents.
