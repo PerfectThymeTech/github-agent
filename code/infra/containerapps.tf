@@ -141,10 +141,10 @@ resource "azapi_resource" "container_apps_job" {
               #   name = "EPHEMERAL"
               #   value = "1"
               # },
-              {
-                name  = "DISABLE_AUTO_UPDATE"
-                value = "false"
-              },
+              # {
+              #   name  = "DISABLE_AUTO_UPDATE"
+              #   value = ""
+              # },
               {
                 name  = "START_DOCKER_SERVICE"
                 value = "false"
