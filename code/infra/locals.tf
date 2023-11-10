@@ -19,6 +19,6 @@ locals {
 
   log_analytics_workspace = {
     resource_group_name = split("/", var.log_analytics_workspace_id)[4]
-    name                = split("/", var.route_table_id)[8]
+    name                = split("/", var.log_analytics_workspace_id)[8]
   }
 }

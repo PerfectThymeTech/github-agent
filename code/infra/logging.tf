@@ -1,7 +1,7 @@
 resource "azurerm_application_insights" "application_insights" {
   name                = "${local.prefix}-appi001"
   location            = var.location
-  resource_group_name = azurerm_resource_group.logging_rg.name
+  resource_group_name = azurerm_resource_group.resource_group_container_app.name
   tags                = var.tags
 
   application_type                      = "other"
