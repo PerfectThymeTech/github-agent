@@ -90,6 +90,7 @@ jobs:
     runs-on: self-hosted
     continue-on-error: false
     environment: ${{ inputs.environment }}
+    needs: [lint]
 
     env:
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
@@ -181,6 +182,7 @@ jobs:
     runs-on: self-hosted
     continue-on-error: false
     environment: ${{ inputs.environment }}
+    needs: [plan]
 
     env:
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
