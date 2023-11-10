@@ -1,12 +1,9 @@
 resource "azapi_resource" "container_apps_environment" {
-  type      = "Microsoft.App/connectedEnvironments@2023-05-02-preview"
+  type      = "Microsoft.App/managedEnvironments@2023-05-02-preview"
   parent_id = azurerm_resource_group.resource_group_container_app.id
   name      = "${local.prefix}-cae001"
   location  = var.location
   tags      = var.tags
-  identity {
-    type = "SystemAssigned"
-  }
 
   body = jsonencode({
     properties = {
@@ -35,8 +32,6 @@ resource "azapi_resource" "container_apps_environment" {
       zoneRedundant = false
     }
   })
-
-  schema_validation_enabled = false
 }
 
 resource "azapi_resource" "container_apps_job" {
@@ -45,6 +40,12 @@ resource "azapi_resource" "container_apps_job" {
   name      = "${local.prefix}-caj001"
   location  = var.location
   tags      = var.tags
+  identity {
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.user_assigned_identity.id
+    ]
+  }
 
   body = jsonencode({
     properties = {
@@ -70,11 +71,11 @@ resource "azapi_resource" "container_apps_job" {
                   }
                 ]
                 metadata = {
-                  github-runner = "https://api.github.com"
-                  owner         = var.github_org_name
-                  runnerScope   = "org"
-                  # labels = local.github_labels
+                  github-runner             = "https://api.github.com"
+                  owner                     = var.github_org_name
+                  runnerScope               = "org"
                   targetWorkflowQueueLength = "1"
+                  # labels = local.github_labels
                 }
               }
             ]
@@ -137,10 +138,10 @@ resource "azapi_resource" "container_apps_job" {
                 name  = "DISABLE_AUTOMATIC_DEREGISTRATION"
                 value = "false"
               },
-              # {
-              #   name = "EPHEMERAL"
-              #   value = "1"
-              # },
+              {
+                name = "EPHEMERAL"
+                value = "1"
+              },
               # {
               #   name  = "DISABLE_AUTO_UPDATE"
               #   value = ""
@@ -153,8 +154,8 @@ resource "azapi_resource" "container_apps_job" {
             image = "ghcr.io/myoung34/docker-github-actions-runner:2.311.0-ubuntu-focal"
             # probes = []
             resources = {
-              cpu    = "2.0"
-              memory = "4Gi"
+              cpu    = 1
+              memory = "2Gi"
             }
             # volumeMounts = []
           }
