@@ -1,0 +1,27 @@
+name: Infrastructure Deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "code/container/**"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "code/container/**"
+
+jobs:
+  terraform_dev:
+    uses: ./.github/workflows/_containerTemplate.yml
+    name: "Dev"
+    with:
+      environment: "dev"
+      working_directory: "./code/container"
+      registry_uri: "ghcr.io"
+      image_namespace_name: "PerfectThymeTech"
+      image_name: "GitHubAgentAzure"
+    secrets:
+      USER_NAME: ${{ github.actor }}
+      PASSWORD: ${{ secrets.GITHUB_TOKEN }}
