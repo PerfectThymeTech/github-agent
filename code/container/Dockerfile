@@ -11,5 +11,12 @@ RUN sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release
     && sudo chmod go+r /etc/apt/keyrings/microsoft.gpg \
     && AZ_DIST=$(lsb_release -cs) \
     && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
-    && sudo apt-get install -y azure-cli
-# =$AZURE_CLI_VERSION-1~$AZ_DIST_amd64
+    && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST_amd64
+
+# Install pwsh
+ARG PWSH_VERSION=7.4.0
+RUN sudo apt-get install -y wget \
+    && wget https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell_$PWSH_VERSION-1.deb_amd64.deb \
+    && sudo dpkg -i powershell_$PWSH_VERSION-1.deb_amd64.deb \
+    && sudo apt-get install -fy \
+    && rm powershell_$PWSH_VERSION-1.deb_amd64.deb
