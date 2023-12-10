@@ -1,4 +1,4 @@
-FROM myoung34/docker-github-actions-runner:2.311.0-ubuntu-focal
+FROM ghcr.io/myoung34/docker-github-actions-runner:2.311.0-ubuntu-focal
 
 # General
 RUN sudo apt-get update
