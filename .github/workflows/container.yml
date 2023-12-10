@@ -1,4 +1,4 @@
-name: Infrastructure Deployment
+name: Container
 on:
   push:
     branches:
@@ -13,9 +13,9 @@ on:
       - "code/container/**"
 
 jobs:
-  terraform_dev:
+  build_and_publish:
     uses: ./.github/workflows/_containerTemplate.yml
-    name: "Dev"
+    name: "Build & Publish"
     with:
       environment: "dev"
       working_directory: "./code/container"
