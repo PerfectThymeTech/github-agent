@@ -12,7 +12,7 @@ RUN sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release
     && AZ_DIST=$(lsb_release -cs) \
     && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
     && AZ_DIST=$(lsb_release -cs) \
-    && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST 
+    && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST_amd64
 
 # Install pwsh
 ARG PWSH_VERSION=7.4.0
