@@ -151,7 +151,7 @@ resource "azapi_resource" "container_apps_job" {
                 value = "false"
               }
             ]
-            image = "ghcr.io/myoung34/docker-github-actions-runner:2.311.0-ubuntu-focal"
+            image = var.container_image_reference
             # probes = []
             resources = {
               cpu    = 1

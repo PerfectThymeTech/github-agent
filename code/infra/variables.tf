@@ -64,6 +64,17 @@ variable "github_personal_access_token" {
   }
 }
 
+# Container variables
+variable "container_image_reference" {
+  description = "Specifies the container image reference used in Azure Container Jobs."
+  type        = string
+  sensitive   = true
+  validation {
+    condition     = length(var.container_image_reference) > 2
+    error_message = "Please specify a valid container reference."
+  }
+}
+
 # Network variables
 variable "vnet_id" {
   description = "Specifies the resource ID of the Vnet used for the Azure Function."
