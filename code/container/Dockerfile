@@ -1,4 +1,5 @@
-FROM myoung34/github-runner:2.311.0-ubuntu-focal
+ARG DISTRIBUTION=focal
+FROM myoung34/github-runner:2.311.0-ubuntu-${DISTRIBUTION}
 
 # General
 RUN sudo apt-get update
@@ -9,9 +10,8 @@ RUN sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release
     && sudo mkdir -p /etc/apt/keyrings \
     && curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/microsoft.gpg \
-    && AZ_DIST=$(lsb_release -cs) \
-    && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
-    && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST_amd64
+    && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ ${DISTRIBUTION} main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
+    && sudo apt-get install -y azure-cli=${AZURE_CLI_VERSION}-1~${DISTRIBUTION} 
 
 # Install pwsh
 ARG PWSH_VERSION=7.4.0
