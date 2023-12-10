@@ -22,5 +22,4 @@ RUN sudo apt-get install -y wget \
     && sudo dpkg -i powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && sudo apt-get install -fy \
     && rm powershell_$PWSH_VERSION-1.deb_amd64.deb \
-    && pwsh \
-    && Install-Module -Name Az -Repository PSGallery -Force
+    && pwsh -Command "Install-Module -Name Az -Repository PSGallery -Force"
