@@ -21,4 +21,6 @@ RUN sudo apt-get install -y wget \
     && wget https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && sudo dpkg -i powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && sudo apt-get install -fy \
-    && rm powershell_$PWSH_VERSION-1.deb_amd64.deb
+    && rm powershell_$PWSH_VERSION-1.deb_amd64.deb \
+    && pwsh \
+    && Install-Module -Name Az -Repository PSGallery -Force
