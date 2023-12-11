@@ -28,3 +28,4 @@ jobs:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      GITHUB_PAT: ${{ secrets.GITHUB_PAT }}

@@ -32,6 +32,9 @@ on:
       SUBSCRIPTION_ID:
         required: true
         description: "Specifies the client id."
+      GITHUB_PAT:
+        required: true
+        description: "Specifies a GitHub PAT."
 
 permissions:
   id-token: write
@@ -139,9 +142,10 @@ jobs:
         id: terraform_plan
         working-directory: ${{ inputs.working_directory }}
         run: |
-          terraform plan -var-file="../../config/${CONFIG}/vars.tfvars" -input=false
+          terraform plan -var-file="../../config/${CONFIG}/vars.tfvars" -var="github_personal_access_token=${GITHUB_PAT}" -input=false
         env:
           CONFIG: ${{ inputs.config }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
 
       # Add Pull Request Comment
       - name: Add Pull Request Comment
@@ -221,6 +225,7 @@ jobs:
       - name: Terraform Apply
         working-directory: ${{ inputs.working_directory }}
         run: |
-          terraform apply -var-file="../../config/${CONFIG}/vars.tfvars" -auto-approve -input=false
+          terraform apply -var-file="../../config/${CONFIG}/vars.tfvars" -var="github_personal_access_token=${GITHUB_PAT}" -auto-approve -input=false
         env:
           CONFIG: ${{ inputs.config }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
