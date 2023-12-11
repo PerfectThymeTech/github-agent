@@ -1,25 +1,31 @@
-FROM myoung34/github-runner:2.311.0-ubuntu-focal
+FROM myoung34/github-runner-base:ubuntu-focal
+LABEL maintainer="info@perfectthymetech.com"
 
-# General
-RUN sudo apt-get update
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN mkdir -p /opt/hostedtoolcache
 
-# Install Azure CLI
-ARG AZURE_CLI_VERSION=2.55.0
-RUN sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
-    && sudo mkdir -p /etc/apt/keyrings \
-    && curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null \
-    && sudo chmod go+r /etc/apt/keyrings/microsoft.gpg \
-    && AZ_DIST=$(lsb_release -cs) \
-    && echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list \
-    && sudo apt-get update \
-    && AZ_DIST=$(lsb_release -cs) \
-    && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST
+ARG GH_RUNNER_VERSION="2.311.0"
+ARG AZURE_CLI_VERSION="2.55.0"
+ARG PWSH_VERSION="7.4.0"
 
-# Install pwsh
-ARG PWSH_VERSION=7.4.0
-RUN sudo apt-get install -y wget \
-    && wget https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell_$PWSH_VERSION-1.deb_amd64.deb \
-    && sudo dpkg -i powershell_$PWSH_VERSION-1.deb_amd64.deb \
-    && sudo apt-get install -fy \
-    && rm powershell_$PWSH_VERSION-1.deb_amd64.deb \
-    && pwsh -Command "Install-Module -Name Az -Repository PSGallery -Force"
+ARG TARGETPLATFORM
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+WORKDIR /actions-runner
+COPY install_actions.sh /actions-runner
+COPY install_dependencies.sh /actions-runner
+
+RUN chmod +x /actions-runner/install_actions.sh \
+  && chmod +x /actions-runner/install_dependencies.sh \
+  && /actions-runner/install_actions.sh ${GH_RUNNER_VERSION} ${TARGETPLATFORM} \
+  && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
+  && rm /actions-runner/install_actions.sh \
+  && rm /actions-runner/install_dependencies.sh \
+  && chown runner /_work /actions-runner /opt/hostedtoolcache
+
+COPY token.sh entrypoint.sh app_token.sh /
+RUN chmod +x /token.sh /entrypoint.sh /app_token.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
