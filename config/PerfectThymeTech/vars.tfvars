@@ -8,8 +8,7 @@ tags = {
 log_analytics_workspace_id = "/subscriptions/8f171ff9-2b5b-4f0f-aed5-7fa360a1d094/resourceGroups/DefaultResourceGroup-NEU/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-8f171ff9-2b5b-4f0f-aed5-7fa360a1d094-NEU"
 
 # Github variables
-github_org_name              = "PerfectThymeTech"
-github_personal_access_token = "<provided-in-pipeline>"
+github_org_name = "PerfectThymeTech"
 
 # Container variables
 container_image_reference = "ghcr.io/perfectthymetech/githubagentazure:main"

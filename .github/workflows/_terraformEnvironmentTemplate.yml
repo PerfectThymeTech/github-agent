@@ -1,4 +1,4 @@
-name: Terraform Apply Template
+name: Terraform Template
 
 on:
   workflow_call:
@@ -110,7 +110,7 @@ jobs:
         id: node_setup
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       # Setup Terraform
       - name: Setup Terraform
@@ -189,6 +189,7 @@ jobs:
     runs-on: self-hosted
     continue-on-error: false
     environment: ${{ inputs.environment }}
+    if: github.event_name == 'push' || github.event_name == 'release'
     needs: [plan]
 
     env:
@@ -204,7 +205,7 @@ jobs:
         id: node_setup
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       # Setup Terraform
       - name: Setup Terraform
