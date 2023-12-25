@@ -34,7 +34,7 @@ on:
       CLIENT_SECRET:
         required: true
         description: "Specifies the client secret."
-      GITHUB_PAT:
+      PERSONAL_ACCESS_TOKEN:
         required: true
         description: "Specifies a GitHub PAT."
 
@@ -149,7 +149,7 @@ jobs:
           terraform plan -var-file="../../config/${CONFIG}/vars.tfvars" -input=false
         env:
           CONFIG: ${{ inputs.config }}
-          TF_VAR_github_personal_access_token: ${{ secrets.GITHUB_PAT }}
+          TF_VAR_github_personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # Add Pull Request Comment
       - name: Add Pull Request Comment
@@ -234,4 +234,4 @@ jobs:
           terraform apply -var-file="../../config/${CONFIG}/vars.tfvars" -auto-approve -input=false
         env:
           CONFIG: ${{ inputs.config }}
-          TF_VAR_github_personal_access_token: ${{ secrets.GITHUB_PAT }}
+          TF_VAR_github_personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
