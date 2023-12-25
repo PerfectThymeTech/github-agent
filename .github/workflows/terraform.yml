@@ -21,7 +21,7 @@ jobs:
     with:
       environment: "dev"
       config: "PerfectThymetech"
-      terraform_version: "1.6.5"
+      terraform_version: "1.6.6"
       working_directory: "./code/infra"
     secrets:
       TENANT_ID: ${{ secrets.TENANT_ID }}
