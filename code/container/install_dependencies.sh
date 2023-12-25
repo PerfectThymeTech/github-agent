@@ -2,9 +2,6 @@
 AZURE_CLI_VERSION=$1
 PWSH_VERSION=$2
 
-# General
-# RUN sudo apt-get update
-
 # Install Azure CLI
 sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
     && sudo mkdir -p /etc/apt/keyrings \
