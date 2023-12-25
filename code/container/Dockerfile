@@ -16,9 +16,9 @@ COPY install_actions.sh install_dependencies.sh /actions-runner/
 
 RUN chmod +x /actions-runner/install_actions.sh /actions-runner/install_dependencies.sh \
   && /actions-runner/install_actions.sh ${GH_RUNNER_VERSION} ${TARGETPLATFORM} \
-  && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
+  # && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
   && rm /actions-runner/install_actions.sh \
-  && rm /actions-runner/install_dependencies.sh \
+  # && rm /actions-runner/install_dependencies.sh \
   && chown runner /_work /actions-runner /opt/hostedtoolcache
 
 COPY token.sh entrypoint.sh app_token.sh /
