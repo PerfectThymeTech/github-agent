@@ -83,7 +83,7 @@ jobs:
       # Extract Metadata (tags, labels)
       - name: Extract Metadata
         id: metadata
-        uses: docker/metadata-action@v5.0.0
+        uses: docker/metadata-action@v5.4.0
         with:
           context: workflow
           images: |
@@ -111,7 +111,7 @@ jobs:
       # This step uses the identity token to provision an ephemeral certificate against the sigstore community Fulcio instance.
       - name: Sign container image
         id: sign
-        if: ${{ github.event_name != 'pull_request' }}
+        if: github.event_name == 'release'
         run: |
           cosign sign --yes "${TAGS}@${DIGEST}"
         env:
