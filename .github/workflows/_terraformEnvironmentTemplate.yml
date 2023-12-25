@@ -128,7 +128,9 @@ jobs:
         id: terraform_init
         working-directory: ${{ inputs.working_directory }}
         run: |
-          terraform init
+          terraform init -backend-config=../../config/${CONFIG}/azurerm.tfbackend
+        env:
+          CONFIG: ${{ inputs.config }}
 
       # Terraform Validate
       - name: Terraform Validate
@@ -219,7 +221,9 @@ jobs:
       - name: Terraform Init
         working-directory: ${{ inputs.working_directory }}
         run: |
-          terraform init
+          terraform init -backend-config=../../config/${CONFIG}/azurerm.tfbackend
+        env:
+          CONFIG: ${{ inputs.config }}
 
       # Terraform Apply
       - name: Terraform Apply
