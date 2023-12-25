@@ -20,7 +20,7 @@ jobs:
     name: "Dev"
     with:
       environment: "dev"
-      config: "PerfectThymetech"
+      config: "PerfectThymeTech"
       terraform_version: "1.6.6"
       working_directory: "./code/infra"
     secrets:
