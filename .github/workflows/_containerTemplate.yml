@@ -1,4 +1,4 @@
-name: Docker Template
+name: Container Template
 
 on:
   workflow_call:
