@@ -20,6 +20,9 @@ RUN chmod +x /actions-runner/install_actions.sh /actions-runner/install_dependen
   && rm /actions-runner/install_actions.sh \
   # && rm /actions-runner/install_dependencies.sh \
   && chown runner /_work /actions-runner /opt/hostedtoolcache
+RUN /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
+  && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
+  && rm /actions-runner/install_dependencies.sh
 
 COPY token.sh entrypoint.sh app_token.sh /
 RUN chmod +x /token.sh /entrypoint.sh /app_token.sh
