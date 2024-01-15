@@ -34,3 +34,14 @@ updates:
     labels:
       - "terraform"
       - "dependencies"
+
+  # Maintain dependencies for Docker
+  - package-ecosystem: "docker"
+    directory: "/code/container"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "10:00"
+    labels:
+      - "docker"
+      - "dependencies"
