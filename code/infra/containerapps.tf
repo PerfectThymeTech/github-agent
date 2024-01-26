@@ -154,8 +154,8 @@ resource "azapi_resource" "container_apps_job" {
             image = var.container_image_reference
             # probes = []
             resources = {
-              cpu    = 1
-              memory = "2Gi"
+              cpu    = 1.25
+              memory = "2.5Gi"
             }
             # volumeMounts = []
           }
