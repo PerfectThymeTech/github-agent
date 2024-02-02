@@ -131,7 +131,7 @@ resource "azapi_resource" "container_apps_job" {
               },
               {
                 name  = "RUNNER_WORKDIR"
-                value = "/_work"
+                value = "/myempty/_work"
               },
               {
                 name  = "RUNNER_GROUP"
@@ -160,11 +160,21 @@ resource "azapi_resource" "container_apps_job" {
               cpu    = 1.5
               memory = "3.0Gi"
             }
-            # volumeMounts = []
+            volumeMounts = [
+              {
+                mountPath = "/myempty"
+                volumeName = "myempty"
+              }
+            ]
           }
         ]
         initContainers = null
-        volumes        = null
+        volumes        = [
+          {
+            name = "myempty"
+            storageType = "EmptyDir"
+          }
+        ]
       }
       workloadProfileName = "Consumption"
     }
