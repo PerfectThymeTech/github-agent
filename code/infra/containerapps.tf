@@ -7,9 +7,9 @@ resource "azapi_resource" "container_apps_environment" {
 
   body = jsonencode({
     properties = {
-      appInsightsConfiguration = {
-        connectionString = azurerm_application_insights.application_insights.connection_string
-      }
+      # appInsightsConfiguration = { # Can only be set when DaprAIConnectionString is set to null
+      #   connectionString = azurerm_application_insights.application_insights.connection_string
+      # }
       appLogsConfiguration = {
         destination = "log-analytics"
         logAnalyticsConfiguration = {
