@@ -162,16 +162,16 @@ resource "azapi_resource" "container_apps_job" {
             }
             volumeMounts = [
               {
-                mountPath = "/myempty"
+                mountPath  = "/myempty"
                 volumeName = "myempty"
               }
             ]
           }
         ]
         initContainers = null
-        volumes        = [
+        volumes = [
           {
-            name = "myempty"
+            name        = "myempty"
             storageType = "EmptyDir"
           }
         ]
