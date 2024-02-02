@@ -86,10 +86,10 @@ resource "azapi_resource" "container_apps_job" {
         }
         secrets = [
           {
-            # identity = ""
-            # keyVaultUrl = ""
-            name  = "personal-access-token"
-            value = var.github_personal_access_token
+            identity    = azurerm_user_assigned_identity.user_assigned_identity.id
+            keyVaultUrl = jsondecode(azapi_resource.key_vault_secret_github_pat.output).properties.secretUri
+            name        = "personal-access-token"
+            value       = var.github_personal_access_token
           }
         ]
       }
