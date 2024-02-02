@@ -1,5 +1,5 @@
 resource "azapi_resource" "container_apps_environment" {
-  type      = "Microsoft.App/managedEnvironments@2023-05-02-preview"
+  type      = "Microsoft.App/managedEnvironments@2023-08-01-preview"
   parent_id = azurerm_resource_group.resource_group_container_app.id
   name      = "${local.prefix}-cae001"
   location  = var.location
@@ -7,6 +7,9 @@ resource "azapi_resource" "container_apps_environment" {
 
   body = jsonencode({
     properties = {
+      # appInsightsConfiguration = { # Can only be set when DaprAIConnectionString is set to null
+      #   connectionString = azurerm_application_insights.application_insights.connection_string
+      # }
       appLogsConfiguration = {
         destination = "log-analytics"
         logAnalyticsConfiguration = {
@@ -154,10 +157,10 @@ resource "azapi_resource" "container_apps_job" {
             image = var.container_image_reference
             # probes = []
             resources = {
-              cpu    = 1.25
-              memory = "2.5Gi"
+              cpu    = 1.5
+              memory = "3.0Gi"
             }
-            # volumeMounts = []
+            volumeMounts = null
           }
         ]
         initContainers = null
