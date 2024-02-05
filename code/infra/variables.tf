@@ -111,7 +111,7 @@ variable "subnet_cidr_container_app" {
   type        = string
   sensitive   = false
   validation {
-    condition     = length(split("/", var.subnet_cidr)) == 2
+    condition     = length(split("/", var.subnet_cidr_container_app)) == 2
     error_message = "Please specify a valid subnet cidr range."
   }
 }
@@ -121,7 +121,7 @@ variable "subnet_cidr_private_endpoints" {
   type        = string
   sensitive   = false
   validation {
-    condition     = length(split("/", var.subnet_cidr)) == 2
+    condition     = length(split("/", var.subnet_cidr_private_endpoints)) == 2
     error_message = "Please specify a valid subnet cidr range."
   }
 }
