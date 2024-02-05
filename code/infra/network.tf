@@ -37,7 +37,7 @@ resource "azapi_resource" "subnet_private_endpoints" {
   body = jsonencode({
     properties = {
       addressPrefix = var.subnet_cidr_private_endpoints
-      delegations = []
+      delegations   = []
       ipAllocations = []
       networkSecurityGroup = {
         id = data.azurerm_network_security_group.network_security_group.id
