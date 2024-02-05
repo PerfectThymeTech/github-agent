@@ -29,7 +29,7 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories_key_vault" {
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_key_vault" {
   name                       = "logAnalytics"
   target_resource_id         = azurerm_key_vault.key_vault.id
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
 
   dynamic "enabled_log" {
     iterator = entry
@@ -83,7 +83,7 @@ resource "azurerm_private_endpoint" "key_vault_private_endpoint" {
     private_connection_resource_id = azurerm_key_vault.key_vault.id
     subresource_names              = ["vault"]
   }
-  subnet_id = data.azurerm_subnet.subnet.id
+  subnet_id = azapi_resource.subnet_private_endpoints.id
   dynamic "private_dns_zone_group" {
     for_each = var.private_dns_zone_id_key_vault == "" ? [] : [1]
     content {
