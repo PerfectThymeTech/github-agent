@@ -1,7 +1,7 @@
 version: v1.1.0
 steps:
   - id: build
-    build: -t $Registry/hello-world:$ID  -f Dockerfile ./code/container
+    build: -t $Registry/hello-world:$ID  -f Dockerfile .
     when: ["-"]
   - id: push
     push: ["$Registry/hello-world:$ID"]
