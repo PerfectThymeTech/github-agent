@@ -15,7 +15,7 @@ updates:
 
   # Maintain dependencies for pip
   - package-ecosystem: "pip"
-    directory: "code/function/"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "sunday"
