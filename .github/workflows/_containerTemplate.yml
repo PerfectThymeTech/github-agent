@@ -55,7 +55,7 @@ jobs:
       # Install cosign
       - name: Install cosign
         id: install_cosign
-        uses: sigstore/cosign-installer@v3.4.0
+        uses: sigstore/cosign-installer@v3.5.0
         if: github.event_name != 'pull_request'
         with:
           cosign-release: 'v2.2.0'
@@ -68,7 +68,7 @@ jobs:
       # Install BuildKit
       - name: Install Buildx
         id: install_buildx
-        uses: docker/setup-buildx-action@v3.2.0
+        uses: docker/setup-buildx-action@v3.3.0
 
       # Login Container Registry
       - name: Login Container Registry
