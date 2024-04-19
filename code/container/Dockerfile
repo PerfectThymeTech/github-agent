@@ -4,9 +4,9 @@ LABEL maintainer="info@perfectthymetech.com"
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN mkdir -p /opt/hostedtoolcache
 
-ARG GH_RUNNER_VERSION="2.314.1"
-ARG AZURE_CLI_VERSION="2.57.0"
-ARG PWSH_VERSION="7.4.1"
+ARG GH_RUNNER_VERSION="2.315.0"
+ARG AZURE_CLI_VERSION="2.59.0"
+ARG PWSH_VERSION="7.4.2"
 ARG TARGETPLATFORM
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
