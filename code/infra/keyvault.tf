@@ -50,11 +50,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_key_vault" {
 }
 
 resource "azurerm_key_vault_secret" "key_vault_secret_github_pat" {
-  name = "github-pat"
+  name         = "github-pat"
   key_vault_id = azurerm_key_vault.key_vault.id
 
   content_type = "text/plain"
-  value = var.github_personal_access_token
+  value        = var.github_personal_access_token
 }
 
 resource "azurerm_private_endpoint" "key_vault_private_endpoint" {
