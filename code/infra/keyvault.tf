@@ -55,6 +55,10 @@ resource "azurerm_key_vault_secret" "key_vault_secret_github_pat" {
 
   content_type = "text/plain"
   value        = var.github_personal_access_token
+
+  depends_on = [
+    azurerm_role_assignment.current_role_assignment_key_vault_secrets_operator
+  ]
 }
 
 resource "azurerm_private_endpoint" "key_vault_private_endpoint" {
