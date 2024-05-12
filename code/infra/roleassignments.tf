@@ -1,6 +1,6 @@
-resource "azurerm_role_assignment" "current_role_assignment_key_vault_secrets_operator" {
+resource "azurerm_role_assignment" "current_role_assignment_key_vault_secrets_officer" {
   scope                = azurerm_key_vault.key_vault.id
-  role_definition_name = "Key Vault Secrets Operator"
+  role_definition_name = "Key Vault Secrets Officer"
   principal_id         = data.azurerm_client_config.current.object_id
 }
 
