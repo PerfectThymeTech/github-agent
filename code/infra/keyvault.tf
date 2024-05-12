@@ -52,7 +52,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_key_vault" {
 resource "azapi_resource" "key_vault_secret_github_pat" {
   type      = "Microsoft.KeyVault/vaults/secrets@2023-07-01"
   parent_id = azurerm_key_vault.key_vault.id
-  name      = "github-personal-access-token"
+  name      = "github-pat"
 
   body = jsonencode({
     properties = {
