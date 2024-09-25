@@ -51,4 +51,8 @@ resource "azapi_resource" "subnet_private_endpoints" {
       serviceEndpoints        = []
     }
   })
+
+  depends_on = [
+    azapi_resource.subnet_container_app
+  ]
 }
