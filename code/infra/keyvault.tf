@@ -25,6 +25,7 @@ resource "azurerm_key_vault_secret" "key_vault_secret_github_pat" {
   value        = var.github_personal_access_token
 
   depends_on = [
-    azurerm_role_assignment.current_role_assignment_key_vault_secrets_officer
+    azurerm_role_assignment.current_role_assignment_key_vault_secrets_officer,
+    module.key_vault.key_vault_setup_completed,
   ]
 }
