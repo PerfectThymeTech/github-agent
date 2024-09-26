@@ -1,5 +1,5 @@
 resource "azapi_resource" "subnet_container_app" {
-  type      = "Microsoft.Network/virtualNetworks/subnets@2022-07-01"
+  type      = "Microsoft.Network/virtualNetworks/subnets@2024-01-01"
   name      = "ContainerAppSubnet"
   parent_id = data.azurerm_virtual_network.virtual_network.id
 
@@ -30,8 +30,8 @@ resource "azapi_resource" "subnet_container_app" {
 }
 
 resource "azapi_resource" "subnet_private_endpoints" {
-  type      = "Microsoft.Network/virtualNetworks/subnets@2022-07-01"
-  name      = "CAPrivateEndpointSubnet"
+  type      = "Microsoft.Network/virtualNetworks/subnets@2024-01-01"
+  name      = "CaPrivateEndpointSubnet"
   parent_id = data.azurerm_virtual_network.virtual_network.id
 
   body = jsonencode({

@@ -1,5 +1,5 @@
 resource "azapi_resource" "container_apps_environment" {
-  type      = "Microsoft.App/managedEnvironments@2023-08-01-preview"
+  type      = "Microsoft.App/managedEnvironments@2024-03-01"
   parent_id = azurerm_resource_group.resource_group_container_app.id
   name      = "${local.prefix}-cae001"
   location  = var.location
@@ -8,7 +8,7 @@ resource "azapi_resource" "container_apps_environment" {
   body = jsonencode({
     properties = {
       # appInsightsConfiguration = { # Can only be set when DaprAIConnectionString is set to null
-      #   connectionString = azurerm_application_insights.application_insights.connection_string
+      #   connectionString = module.application_insights.application_insights_connection_string
       # }
       appLogsConfiguration = {
         destination = "log-analytics"
@@ -17,8 +17,8 @@ resource "azapi_resource" "container_apps_environment" {
           sharedKey  = data.azurerm_log_analytics_workspace.log_analytics_workspace.primary_shared_key
         }
       }
-      daprAIConnectionString      = azurerm_application_insights.application_insights.connection_string
-      daprAIInstrumentationKey    = azurerm_application_insights.application_insights.instrumentation_key
+      daprAIConnectionString      = module.application_insights.application_insights_connection_string
+      daprAIInstrumentationKey    = module.application_insights.application_insights_instrumentation_key
       daprConfiguration           = {}
       infrastructureResourceGroup = "${local.prefix}-cae001-rg"
       kedaConfiguration           = {}
@@ -38,7 +38,7 @@ resource "azapi_resource" "container_apps_environment" {
 }
 
 resource "azapi_resource" "container_apps_job" {
-  type      = "Microsoft.App/jobs@2023-05-02-preview"
+  type      = "Microsoft.App/jobs@2024-03-01"
   parent_id = azurerm_resource_group.resource_group_container_app.id
   name      = "${local.prefix}-caj001"
   location  = var.location
@@ -46,7 +46,7 @@ resource "azapi_resource" "container_apps_job" {
   identity {
     type = "UserAssigned"
     identity_ids = [
-      azurerm_user_assigned_identity.user_assigned_identity.id
+      module.user_assigned_identity.user_assigned_identity_id
     ]
   }
 
@@ -86,7 +86,7 @@ resource "azapi_resource" "container_apps_job" {
         }
         secrets = [
           {
-            identity    = azurerm_user_assigned_identity.user_assigned_identity.id
+            identity    = module.user_assigned_identity.user_assigned_identity_id
             keyVaultUrl = azurerm_key_vault_secret.key_vault_secret_github_pat.versionless_id
             name        = "personal-access-token"
             value       = var.github_personal_access_token

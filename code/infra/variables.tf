@@ -33,16 +33,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "log_analytics_workspace_id" {
-  description = "Specifies the resource ID of the log analytics workspace used for collecting logs."
-  type        = string
-  sensitive   = false
-  validation {
-    condition     = length(split("/", var.log_analytics_workspace_id)) == 9
-    error_message = "Please specify a valid resource ID."
-  }
-}
-
 # Github variables
 variable "github_org_name" {
   description = "Specifies the name of the GitHub org."
@@ -75,7 +65,30 @@ variable "container_image_reference" {
   }
 }
 
+# Logging variables
+variable "log_analytics_workspace_id" {
+  description = "Specifies the resource ID of the log analytics workspace used for collecting logs."
+  type        = string
+  sensitive   = false
+  validation {
+    condition     = length(split("/", var.log_analytics_workspace_id)) == 9
+    error_message = "Please specify a valid resource ID."
+  }
+}
+
 # Network variables
+variable "connectivity_delay_in_seconds" {
+  description = "Specifies the delay in seconds after the private endpoint deployment (required for the DNS automation via Policies)."
+  type        = number
+  sensitive   = false
+  nullable    = false
+  default     = 120
+  validation {
+    condition     = var.connectivity_delay_in_seconds >= 0
+    error_message = "Please specify a valid non-negative number."
+  }
+}
+
 variable "vnet_id" {
   description = "Specifies the resource ID of the Vnet used for the Azure Function."
   type        = string
