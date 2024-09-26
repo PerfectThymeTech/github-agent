@@ -1,6 +1,6 @@
 resource "azapi_resource" "subnet_container_app" {
   type      = "Microsoft.Network/virtualNetworks/subnets@2024-01-01"
-  name      = "ContainerAppSubnet"
+  name      = "ConAppEnvironmentSubnet"
   parent_id = data.azurerm_virtual_network.virtual_network.id
 
   body = jsonencode({
@@ -31,7 +31,7 @@ resource "azapi_resource" "subnet_container_app" {
 
 resource "azapi_resource" "subnet_private_endpoints" {
   type      = "Microsoft.Network/virtualNetworks/subnets@2024-01-01"
-  name      = "CaPrivateEndpointSubnet"
+  name      = "ConAppPrivateEndpointSubnet"
   parent_id = data.azurerm_virtual_network.virtual_network.id
 
   body = jsonencode({
