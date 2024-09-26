@@ -2,6 +2,15 @@ locals {
   # General locals
   prefix        = "${lower(var.prefix)}-${var.environment}"
   github_labels = "aca"
+  resource_providers_to_register = [
+    "Microsoft.Authorization",
+    "Microsoft.App",
+    "Microsoft.Insights",
+    "Microsoft.KeyVault",
+    "Microsoft.ManagedIdentity",
+    "Microsoft.Network",
+    "Microsoft.Resources",
+  ]
 
   # Resource locals
   virtual_network = {
