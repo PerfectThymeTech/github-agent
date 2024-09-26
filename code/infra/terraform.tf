@@ -4,11 +4,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.116.0"
+      version = "4.3.0"
     }
     azapi = {
       source  = "azure/azapi"
       version = "1.15.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.12.1"
     }
   }
 
