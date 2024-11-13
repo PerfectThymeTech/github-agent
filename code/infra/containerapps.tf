@@ -5,7 +5,7 @@ resource "azapi_resource" "container_apps_environment" {
   location  = var.location
   tags      = var.tags
 
-  body = jsonencode({
+  body = {
     properties = {
       # appInsightsConfiguration = { # Can only be set when DaprAIConnectionString is set to null
       #   connectionString = module.application_insights.application_insights_connection_string
@@ -34,7 +34,7 @@ resource "azapi_resource" "container_apps_environment" {
       ]
       zoneRedundant = false
     }
-  })
+  }
 }
 
 resource "azapi_resource" "container_apps_job" {
@@ -50,7 +50,7 @@ resource "azapi_resource" "container_apps_job" {
     ]
   }
 
-  body = jsonencode({
+  body = {
     properties = {
       configuration = {
         replicaRetryLimit = 1
@@ -168,5 +168,5 @@ resource "azapi_resource" "container_apps_job" {
       }
       workloadProfileName = "Consumption"
     }
-  })
+  }
 }
