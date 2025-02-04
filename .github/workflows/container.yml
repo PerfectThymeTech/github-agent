@@ -21,7 +21,7 @@ jobs:
       working_directory: "./code/container"
       registry_uri: "ghcr.io"
       image_namespace_name: "PerfectThymeTech"
-      image_name: "github-agent"
+      image_name: "GitHubAgentAzure"
     secrets:
       USER_NAME: ${{ github.actor }}
       PASSWORD: ${{ secrets.GITHUB_TOKEN }}
