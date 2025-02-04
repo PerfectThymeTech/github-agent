@@ -1,6 +1,8 @@
 FROM ghcr.io/actions/actions-runner:2.322.0
 LABEL maintainer="info@perfectthymetech.com"
 
+USER root
+
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN mkdir -p /opt/hostedtoolcache
 
