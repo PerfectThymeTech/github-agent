@@ -16,13 +16,18 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /actions-runner
 COPY install_dependencies.sh /actions-runner/
 
-RUN chmod +x /actions-runner/install_dependencies.sh \
+RUN apt-get update \
+  && apt-get install -y curl jq \
+  && chmod +x /actions-runner/install_dependencies.sh \
+  && apt-get clean \
   && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
   && rm /actions-runner/install_dependencies.sh \
   && chown runner /_work /actions-runner /opt/hostedtoolcache
 
 COPY token.sh entrypoint.sh app_token.sh /
 RUN chmod +x /token.sh /entrypoint.sh /app_token.sh
+
+USER runner
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
