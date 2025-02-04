@@ -21,6 +21,13 @@ jobs:
         with:
           python-version: "3.11"
 
+      # Setup Node
+      - name: Setup Node
+        id: node_setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       # Setup Terraform
       - name: Setup Terraform
         id: terraform_setup
