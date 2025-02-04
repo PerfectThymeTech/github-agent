@@ -14,7 +14,8 @@ apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
     && apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST
 
 # Install Powershell
-apt-get install -y wget \
+apt-get update \
+    && apt-get install -y wget \
     && wget https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && dpkg -i powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && apt-get install -fy \
