@@ -5,6 +5,7 @@ USER root
 
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN mkdir -p /opt/hostedtoolcache
+RUN mkdir -p /_work
 
 ARG AZURE_CLI_VERSION="2.68.0"
 ARG PWSH_VERSION="7.5.0"
