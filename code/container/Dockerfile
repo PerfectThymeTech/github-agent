@@ -14,6 +14,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 WORKDIR /actions-runner
 COPY install_actions.sh install_dependencies.sh /actions-runner/
 
+RUN echo insecure >> ~/.curlrc
+
 RUN chmod +x /actions-runner/install_actions.sh /actions-runner/install_dependencies.sh \
   && /actions-runner/install_actions.sh ${GH_RUNNER_VERSION} ${TARGETPLATFORM} \
   && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
