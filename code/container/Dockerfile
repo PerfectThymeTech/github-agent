@@ -19,10 +19,10 @@ RUN chmod +x /install_dependencies.sh \
   && /install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
   && rm /install_dependencies.sh
 
-COPY entrypoint.sh ./entrypoint.sh
+COPY /entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 USER runner
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
 # CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
