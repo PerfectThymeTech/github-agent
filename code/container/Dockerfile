@@ -16,8 +16,8 @@ ARG PWSH_VERSION="7.5.0"
 COPY install_dependencies.sh /install_dependencies.sh
 
 RUN chmod +x /install_dependencies.sh \
-  && /actions-runner/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
-  && rm /actions-runner/install_dependencies.sh
+  && /install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
+  && rm /install_dependencies.sh
 
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
