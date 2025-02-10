@@ -122,6 +122,7 @@ configure_runner() {
   if [[ -n "${ACCESS_TOKEN}" ]]; then
     echo "Obtaining the token of the runner"
     _TOKEN=$(ACCESS_TOKEN="${ACCESS_TOKEN}" bash /token.sh)
+    echo $_TOKEN
     RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
   fi
 
