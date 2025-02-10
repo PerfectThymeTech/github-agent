@@ -1,6 +1,7 @@
 #!/usr/bin/dumb-init /bin/bash
 # shellcheck shell=bash
 
+export GITHUB_ACTIONS_RUNNER_TLS_NO_VERIFY=1
 export RUNNER_ALLOW_RUNASROOT=1
 export PATH=${PATH}:/actions-runner
 
