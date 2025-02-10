@@ -1,7 +1,12 @@
 #!/usr/bin/dumb-init /bin/bash
 # shellcheck shell=bash
 
-export GITHUB_ACTIONS_RUNNER_TLS_NO_VERIFY=1
+# Configure SSL certificates
+# export GITHUB_ACTIONS_RUNNER_TLS_NO_VERIFY=1
+openssl s_client -showcerts -connect github.com:443 </dev/null 2>/dev/null| sed -n '/^-----BEGIN CERT/,/^-----END CERT/p' > /usr/local/share/ca-certificates/mycert.crt
+# sudo security add-trusted-cert -d -r trustAsRoot -k /mycert.crt
+sudo update-ca-certificates
+
 export RUNNER_ALLOW_RUNASROOT=1
 export PATH=${PATH}:/actions-runner
 

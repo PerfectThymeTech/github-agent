@@ -20,3 +20,6 @@ sudo apt-get install -y wget \
     && sudo apt-get install -fy \
     && rm powershell_$PWSH_VERSION-1.deb_amd64.deb \
     && pwsh -Command "Install-Module -Name Az -Repository PSGallery -Force"
+
+# Install ca-certificates
+sudo apt-get install -y ca-certificates

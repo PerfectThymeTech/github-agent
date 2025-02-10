@@ -34,7 +34,7 @@ case ${RUNNER_SCOPE} in
     ;;
 esac
 
-RUNNER_TOKEN="$(curl -XPOST -fsSL \
+RUNNER_TOKEN="$(curl -XPOST -fsSL --cacert /usr/local/share/ca-certificates/mycert.crt \
   -H "${CONTENT_LENGTH_HEADER}" \
   -H "${AUTH_HEADER}" \
   -H "${API_HEADER}" \
