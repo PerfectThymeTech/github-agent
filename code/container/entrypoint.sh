@@ -1,6 +1,16 @@
 #!/usr/bin/dumb-init /bin/bash
 # shellcheck shell=bash
 
+# Configure SSL certificates
+export GITHUB_ACTIONS_RUNNER_TLS_NO_VERIFY=1
+export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+# openssl s_client -showcerts -connect github.com:443 </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | tee "/usr/local/share/ca-certificates/ca.crt" >/dev/null
+# sudo update-ca-certificates
+# openssl s_client -showcerts -connect github.com:443 </dev/null 2>/dev/null| openssl x509 -outform PEM > /mycert.pem
+# openssl x509 -outform der -in mycert.pem -out /usr/local/share/ca-certificates/mycert.crt
+# sudo security add-trusted-cert -d -r trustAsRoot -k /mycert.crt
+# sudo update-ca-certificates
+
 export RUNNER_ALLOW_RUNASROOT=1
 export PATH=${PATH}:/actions-runner
 
@@ -113,6 +123,7 @@ configure_runner() {
   if [[ -n "${ACCESS_TOKEN}" ]]; then
     echo "Obtaining the token of the runner"
     _TOKEN=$(ACCESS_TOKEN="${ACCESS_TOKEN}" bash /token.sh)
+    echo $_TOKEN
     RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
   fi
 
