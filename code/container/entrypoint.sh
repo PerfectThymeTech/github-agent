@@ -3,7 +3,7 @@
 
 # Configure SSL certificates
 # export GITHUB_ACTIONS_RUNNER_TLS_NO_VERIFY=1
-openssl s_client -showcerts -connect github.com:443 </dev/null 2>/dev/null| sed -n '/^-----BEGIN CERT/,/^-----END CERT/p' > /usr/local/share/ca-certificates/mycert.crt
+openssl s_client -showcerts -connect server.edu:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > /usr/local/share/ca-certificates/mycert.pem
 # sudo security add-trusted-cert -d -r trustAsRoot -k /mycert.crt
 sudo update-ca-certificates
 
