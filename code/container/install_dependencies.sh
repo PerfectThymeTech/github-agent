@@ -13,6 +13,9 @@ sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnu
     && AZ_DIST=$(lsb_release -cs) \
     && sudo apt-get install -y azure-cli=$AZURE_CLI_VERSION-1~$AZ_DIST
 
+# Install Azure CLI - AKS
+sudo az aks install-cli
+
 # Install Powershell
 sudo apt-get install -y wget \
     && wget https://github.com/PowerShell/PowerShell/releases/download/v$PWSH_VERSION/powershell_$PWSH_VERSION-1.deb_amd64.deb \
