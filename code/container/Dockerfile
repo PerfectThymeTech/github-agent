@@ -1,4 +1,4 @@
-FROM myoung34/github-runner-base:ubuntu-focal
+FROM myoung34/github-runner-base:ubuntu-noble
 LABEL maintainer="info@perfectthymetech.com"
 
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
