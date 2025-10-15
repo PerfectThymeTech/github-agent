@@ -3,7 +3,7 @@ AZURE_CLI_VERSION=$1
 PWSH_VERSION=$2
 
 # Install Azure CLI
-sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release \
     && sudo mkdir -p /etc/apt/keyrings \
     && curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/microsoft.gpg \
