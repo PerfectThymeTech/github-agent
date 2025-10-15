@@ -152,6 +152,22 @@ resource "azapi_resource" "container_apps_job" {
               {
                 name  = "START_DOCKER_SERVICE"
                 value = "false"
+              },
+              # {
+              #   name  = "NO_DEFAULT_LABELS"
+              #   value = "true"
+              # },
+              {
+                name  = "DEBUG_ONLY"
+                value = "false"
+              },
+              {
+                name  = "DEBUG_OUTPUT"
+                value = "false"
+              },
+              {
+                name  = "UNSET_CONFIG_VARS"
+                value = "true"
               }
             ]
             image = var.container_image_reference
