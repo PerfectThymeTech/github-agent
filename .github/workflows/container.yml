@@ -12,6 +12,9 @@ on:
     paths:
       - "code/container/**"
 
+  schedule:
+    - cron: '0 0 * * *'
+
 jobs:
   build_and_publish:
     uses: ./.github/workflows/_containerTemplate.yml
