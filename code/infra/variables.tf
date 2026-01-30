@@ -47,10 +47,20 @@ variable "github_org_name" {
 variable "github_app_id" {
   description = "Specifies the app ID for the GitHub app."
   type        = string
-  sensitive   = true
+  sensitive   = false
   validation {
     condition     = length(var.github_app_id) > 2
     error_message = "Please specify a valid app ID."
+  }
+}
+
+variable "github_app_installation_id" {
+  description = "Specifies the app installation ID for the GitHub app."
+  type        = string
+  sensitive   = false
+  validation {
+    condition     = length(var.github_app_installation_id) > 2
+    error_message = "Please specify a valid app installation ID."
   }
 }
 

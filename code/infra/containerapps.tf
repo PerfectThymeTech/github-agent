@@ -74,11 +74,17 @@ resource "azapi_resource" "container_apps_job" {
                   }
                 ]
                 metadata = {
-                  github-runner             = "https://api.github.com"
-                  owner                     = var.github_org_name
-                  runnerScope               = "org"
-                  targetWorkflowQueueLength = "1"
+                  github-runner = "https://api.github.com"
+                  githubApiURL  = "https://api.github.com"
+                  owner         = var.github_org_name
+                  runnerScope   = "org"
                   # labels = local.github_labels
+                  noDefaultLabels                        = false
+                  matchUnlabeledJobsWithUnlabeledRunners = false
+                  enableEtags                            = false
+                  targetWorkflowQueueLength              = "1"
+                  applicationID                          = var.github_app_id
+                  installationID                         = var.github_app_installation_id
                 }
               }
             ]
