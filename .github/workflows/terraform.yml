@@ -23,7 +23,7 @@ jobs:
     with:
       environment: "dev"
       config: "PerfectThymeTech"
-      terraform_version: "1.13.3"
+      terraform_version: "1.14.4"
       node_version: 24
       working_directory: "./code/infra"
       tenant_id: "37963dd4-f4e6-40f8-a7d6-24b97919e452"
@@ -31,4 +31,4 @@ jobs:
     secrets:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
