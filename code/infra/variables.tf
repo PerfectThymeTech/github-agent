@@ -44,13 +44,23 @@ variable "github_org_name" {
   }
 }
 
-variable "github_personal_access_token" {
-  description = "Specifies the personal access token for the GitHub org."
+variable "github_app_id" {
+  description = "Specifies the app ID for the GitHub app."
   type        = string
   sensitive   = true
   validation {
-    condition     = length(var.github_personal_access_token) > 2
-    error_message = "Please specify a valid PAT token."
+    condition     = length(var.github_app_id) > 2
+    error_message = "Please specify a valid app ID."
+  }
+}
+
+variable "github_app_private_key" {
+  description = "Specifies the private key for the GitHub app."
+  type        = string
+  sensitive   = true
+  validation {
+    condition     = length(var.github_app_private_key) > 2
+    error_message = "Please specify a valid private key."
   }
 }
 
