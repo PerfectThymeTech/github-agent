@@ -17,12 +17,12 @@ module "key_vault" {
   private_dns_zone_id_vault            = var.private_dns_zone_id_vault
 }
 
-resource "azurerm_key_vault_secret" "key_vault_secret_github_pat" {
-  name         = "github-pat"
+resource "azurerm_key_vault_secret" "key_vault_secret_github_app_private_key" {
+  name         = "github-app-private-key"
   key_vault_id = module.key_vault.key_vault_id
 
   content_type = "text/plain"
-  value        = var.github_personal_access_token
+  value        = var.github_app_private_key
 
   depends_on = [
     azurerm_role_assignment.current_role_assignment_key_vault_secrets_officer,

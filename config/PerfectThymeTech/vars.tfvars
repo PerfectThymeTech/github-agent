@@ -9,6 +9,7 @@ log_analytics_workspace_id = "/subscriptions/e82c5267-9dc4-4f45-ac13-abdd5e130d2
 
 # Github variables
 github_org_name = "PerfectThymeTech"
+github_app_id   = "2759660"
 
 # Container variables
 container_image_reference = "ghcr.io/perfectthymetech/githubagentazure:main"
