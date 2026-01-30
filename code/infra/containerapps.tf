@@ -69,8 +69,8 @@ resource "azapi_resource" "container_apps_job" {
                 type = "github-runner"
                 auth = [
                   {
-                    triggerParameter = "personalAccessToken"
-                    secretRef        = "personal-access-token"
+                    triggerParameter = "appKey"
+                    secretRef        = "app-private-key"
                   }
                 ]
                 metadata = {
