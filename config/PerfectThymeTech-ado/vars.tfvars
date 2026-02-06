@@ -11,7 +11,7 @@ log_analytics_workspace_id = "/subscriptions/e82c5267-9dc4-4f45-ac13-abdd5e130d2
 azure_devops_organization_url = "https://dev.azure.com/marvinbuss-eval"
 
 # Container variables
-container_image_reference    = "ghcr.io/perfectthymetech/azuredevopsagentazure:pr-232"
+container_image_reference = "ghcr.io/perfectthymetech/azuredevopsagentazure:pr-232"
 
 # Network variables
 vnet_id                       = "/subscriptions/e82c5267-9dc4-4f45-ac13-abdd5e130d27/resourceGroups/ptt-dev-hub-northeurope-rg/providers/Microsoft.Network/virtualNetworks/ptt-dev-vnet001"

@@ -11,7 +11,7 @@ terraform {
       version = "2.8.0"
     }
     azuredevops = {
-      source = "microsoft/azuredevops"
+      source  = "microsoft/azuredevops"
       version = "1.13.0"
     }
     time = {
