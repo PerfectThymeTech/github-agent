@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM myoung34/github-runner-base:ubuntu-noble
 LABEL maintainer="info@perfectthymetech.com"
 
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
