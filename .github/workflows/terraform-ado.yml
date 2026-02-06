@@ -1,4 +1,4 @@
-name: Infrastructure Deployment
+name: Infrastructure Deployment - ADO
 on:
   push:
     branches:
