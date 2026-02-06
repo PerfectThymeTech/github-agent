@@ -24,8 +24,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 WORKDIR /azp
 COPY install_dependencies.sh start.sh /azp/
 
-RUN chmod +x /azp/start.sh /azp/install_dependencies.sh \
-    && /azp/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION} \
-    && rm /azp/install_dependencies.sh
+RUN chmod +x /azp/start.sh /azp/install_dependencies.sh
+RUN /azp/install_dependencies.sh ${AZURE_CLI_VERSION} ${PWSH_VERSION}
+RUN rm /azp/install_dependencies.sh
 
 ENTRYPOINT [ "./start.sh" ]
