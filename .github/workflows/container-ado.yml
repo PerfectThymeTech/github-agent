@@ -21,7 +21,7 @@ jobs:
     name: "Build & Publish"
     with:
       environment: "dev"
-      working_directory: "./code/container"
+      working_directory: "./code/container-ado"
       registry_uri: "ghcr.io"
       image_namespace_name: "PerfectThymeTech"
       image_name: "AzureDevOpsAgentAzure"
