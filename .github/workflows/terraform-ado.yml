@@ -1,0 +1,32 @@
+name: Infrastructure Deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "code/infra-ado/**"
+      - ".github/workflows/terraform-ado.yml"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "code/infra-ado/**"
+      - ".github/workflows/terraform-ado.yml"
+
+jobs:
+  terraform_dev:
+    uses: ./.github/workflows/_terraformEnvironmentTemplate.yml
+    name: "Dev"
+    with:
+      environment: "dev"
+      config: "PerfectThymeTech-ado"
+      terraform_version: "1.14.4"
+      node_version: 24
+      working_directory: "./code/infra-ado"
+      tenant_id: "37963dd4-f4e6-40f8-a7d6-24b97919e452"
+      subscription_id: "e82c5267-9dc4-4f45-ac13-abdd5e130d27"
+    secrets:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
