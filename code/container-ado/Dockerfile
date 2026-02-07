@@ -3,6 +3,8 @@ LABEL maintainer="info@perfectthymetech.com"
 
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
 ENV TARGETARCH=linux-x64
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN mkdir -p /opt/hostedtoolcache
 
 ARG AZURE_CLI_VERSION="2.72.0"
 ARG PWSH_VERSION="7.5.3"
