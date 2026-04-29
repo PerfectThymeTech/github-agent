@@ -47,7 +47,7 @@ variable "azure_devops_organization_url" {
 variable "azure_devops_pat" {
   description = "Specifies the PAT for the Azure DevOps Org."
   type        = string
-  sensitive   = false
+  sensitive   = true
   validation {
     condition     = length(var.azure_devops_pat) > 2
     error_message = "Please specify a valid app ID."
@@ -58,7 +58,7 @@ variable "azure_devops_pat" {
 variable "container_image_reference" {
   description = "Specifies the container image reference used in Azure Container Jobs."
   type        = string
-  sensitive   = true
+  sensitive   = false
   validation {
     condition     = length(var.container_image_reference) > 2
     error_message = "Please specify a valid container reference."

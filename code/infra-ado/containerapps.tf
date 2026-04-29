@@ -1,36 +1,20 @@
-resource "azapi_resource" "container_apps_environment" {
-  type      = "Microsoft.App/managedEnvironments@2024-03-01"
-  parent_id = azurerm_resource_group.resource_group_container_app.id
-  name      = "${local.prefix}-cae001"
-  location  = var.location
-  tags      = var.tags
+resource "azurerm_container_app_environment" "container_app_environment" {
+  name                = "${local.prefix}-cae001"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.resource_group_container_app.name
+  tags                = var.tags
 
-  body = {
-    properties = {
-      # appInsightsConfiguration = { # Can only be set when DaprAIConnectionString is set to null
-      #   connectionString = module.application_insights.application_insights_connection_string
-      # }
-      appLogsConfiguration = {
-        destination = "azure-monitor"
-      }
-      daprAIConnectionString      = module.application_insights.application_insights_connection_string
-      daprAIInstrumentationKey    = module.application_insights.application_insights_instrumentation_key
-      daprConfiguration           = {}
-      infrastructureResourceGroup = "${local.prefix}-cae001-rg"
-      kedaConfiguration           = {}
-      vnetConfiguration = {
-        infrastructureSubnetId = azapi_resource.subnet_container_app.id
-        internal               = true
-      }
-      workloadProfiles = [
-        {
-          name                = "Consumption"
-          workloadProfileType = "Consumption"
-        }
-      ]
-      zoneRedundant = false
-    }
+  # dapr_application_insights_connection_string = module.application_insights.application_insights_connection_string
+  infrastructure_resource_group_name = "${local.prefix}-cae001-rg"
+  infrastructure_subnet_id           = azapi_resource.subnet_container_app.id
+  internal_load_balancer_enabled     = true
+  logs_destination                   = "azure-monitor"
+  mutual_tls_enabled                 = false
+  workload_profile {
+    name                  = "Consumption"
+    workload_profile_type = "Consumption"
   }
+  zone_redundancy_enabled = false
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_container_app_environment" {
@@ -41,7 +25,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_container_app_
     }
   }
   name                       = "applicationLogs-${each.key}"
-  target_resource_id         = azapi_resource.container_apps_environment.id
+  target_resource_id         = azurerm_container_app_environment.container_app_environment.id
   log_analytics_workspace_id = each.value.log_analytics_workspace_id == "" ? null : each.value.log_analytics_workspace_id
   storage_account_id         = each.value.storage_account_id == "" ? null : each.value.storage_account_id
 
@@ -62,12 +46,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_container_app_
   }
 }
 
-resource "azapi_resource" "container_apps_job" {
-  type      = "Microsoft.App/jobs@2024-03-01"
-  parent_id = azurerm_resource_group.resource_group_container_app.id
-  name      = "${local.prefix}-caj001"
-  location  = var.location
-  tags      = var.tags
+resource "azurerm_container_app_job" "container_app_job" {
+  name                = "${local.prefix}-caj001"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.resource_group_container_app.name
+  tags                = var.tags
   identity {
     type = "UserAssigned"
     identity_ids = [
@@ -75,101 +58,76 @@ resource "azapi_resource" "container_apps_job" {
     ]
   }
 
-  body = {
-    properties = {
-      configuration = {
-        replicaRetryLimit = 1
-        replicaTimeout    = 1800
-        triggerType       = "Event"
-        eventTriggerConfig = {
-          parallelism            = 1
-          replicaCompletionCount = 1
-          scale = {
-            minExecutions   = 0
-            maxExecutions   = 10
-            pollingInterval = 30
-            rules = [
-              {
-                name = "azure-pipelines"
-                type = "azure-pipelines"
-                auth = [
-                  {
-                    triggerParameter = "organizationURL"
-                    secretRef        = "organization-url"
-                  },
-                  {
-                    triggerParameter = "personalAccessToken"
-                    secretRef        = "personal-access-token"
-                  }
-                ]
-                metadata = {
-                  # poolName                             = azuredevops_agent_pool.agent_pool.name
-                  poolID                               = azuredevops_agent_pool.agent_pool.id
-                  organizationURLFromEnv               = "AZP_URL"
-                  personalAccessTokenFromEnv           = "AZP_TOKEN"
-                  targetPipelinesQueueLength           = 1
-                  activationTargetPipelinesQueueLength = 0
-                  requireAllDemands                    = false
-                  requireAllDemandsAndIgnoreOthers     = false
-                  jobsToFetch                          = 250
-                  fetchUnfinishedJobsOnly              = false
-                  caseInsensitiveDemandsProcessing     = false
-                  # parent = var.azure_devops_parent_agent_name
-                  # demands = var.azure_devops_demands
-                }
-              }
-            ]
-          }
+  container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
+  event_trigger_config {
+    parallelism              = 1
+    replica_completion_count = 1
+    scale {
+      max_executions              = 10
+      min_executions              = 0
+      polling_interval_in_seconds = 30
+      rules {
+        name             = "azure-pipelines"
+        custom_rule_type = "azure-pipelines"
+        authentication {
+          trigger_parameter = "organizationURL"
+          secret_name       = "organization-url"
         }
-        secrets = [
-          {
-            identity    = module.user_assigned_identity.user_assigned_identity_id
-            keyVaultUrl = azurerm_key_vault_secret.key_vault_secret_azure_devops_organization_url.versionless_id
-            name        = "organization-url"
-            value       = var.azure_devops_organization_url
-          },
-          {
-            identity    = module.user_assigned_identity.user_assigned_identity_id
-            keyVaultUrl = azurerm_key_vault_secret.key_vault_secret_azure_devops_pat.versionless_id
-            name        = "personal-access-token"
-            value       = var.azure_devops_pat
-          }
-        ]
+        authentication {
+          trigger_parameter = "personalAccessToken"
+          secret_name       = "personal-access-token"
+        }
+        metadata = {
+          # poolName                             = azuredevops_agent_pool.agent_pool.name
+          poolID                               = azuredevops_agent_pool.agent_pool.id
+          organizationURLFromEnv               = "AZP_URL"
+          personalAccessTokenFromEnv           = "AZP_TOKEN"
+          targetPipelinesQueueLength           = 1
+          activationTargetPipelinesQueueLength = 0
+          requireAllDemands                    = "False"
+          requireAllDemandsAndIgnoreOthers     = "False"
+          jobsToFetch                          = 250
+          fetchUnfinishedJobsOnly              = "False"
+          caseInsensitiveDemandsProcessing     = "False"
+          # parent = var.azure_devops_parent_agent_name
+          # demands = var.azure_devops_demands
+        }
       }
-      environmentId = azapi_resource.container_apps_environment.id
-      template = {
-        containers = [
-          {
-            name = "github-runner"
-            # args = []
-            # command = []
-            env = [
-              {
-                name      = "AZP_TOKEN"
-                secretRef = "personal-access-token"
-              },
-              {
-                name      = "AZP_URL"
-                secretRef = "organization-url"
-              },
-              {
-                name  = "AZP_POOL"
-                value = azuredevops_agent_pool.agent_pool.name
-              }
-            ]
-            image = var.container_image_reference
-            # probes = []
-            resources = {
-              cpu    = 1.5
-              memory = "3.0Gi"
-            }
-            volumeMounts = null
-          }
-        ]
-        initContainers = null
-        volumes        = null
-      }
-      workloadProfileName = "Consumption"
     }
   }
+  replica_retry_limit        = 1
+  replica_timeout_in_seconds = 1800
+  secret {
+    name                = "organization-url"
+    value               = var.azure_devops_organization_url
+    identity            = module.user_assigned_identity.user_assigned_identity_id
+    key_vault_secret_id = azurerm_key_vault_secret.key_vault_secret_azure_devops_organization_url.versionless_id
+  }
+  secret {
+    name                = "personal-access-token"
+    value               = var.azure_devops_pat
+    identity            = module.user_assigned_identity.user_assigned_identity_id
+    key_vault_secret_id = azurerm_key_vault_secret.key_vault_secret_azure_devops_pat.versionless_id
+  }
+  template {
+    container {
+      name   = "azuredevops-runner"
+      cpu    = 1.5
+      memory = "3Gi"
+      image  = var.container_image_reference
+      env {
+        name        = "AZP_TOKEN"
+        secret_name = "personal-access-token"
+      }
+      env {
+        name        = "AZP_URL"
+        secret_name = "organization-url"
+      }
+      env {
+        name  = "AZP_POOL"
+        value = azuredevops_agent_pool.agent_pool.name
+      }
+    }
+  }
+  workload_profile_name = "Consumption"
 }

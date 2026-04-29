@@ -21,5 +21,5 @@ data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories_container_app_environment" {
-  resource_id = azapi_resource.container_apps_environment.id
+  resource_id = azurerm_container_app_environment.container_app_environment.id
 }
