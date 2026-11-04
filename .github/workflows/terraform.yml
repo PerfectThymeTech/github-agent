@@ -23,8 +23,8 @@ jobs:
     with:
       environment: "dev"
       config: "PerfectThymeTech"
-      terraform_version: "1.14.4"
-      node_version: 24
+      terraform_version: "1.17.1"
+      node_version: 26
       working_directory: "./code/infra"
       tenant_id: "37963dd4-f4e6-40f8-a7d6-24b97919e452"
       subscription_id: "e82c5267-9dc4-4f45-ac13-abdd5e130d27"
